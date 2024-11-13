@@ -1,52 +1,36 @@
 # sample-operator
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This project is a java port of [Kubernetes Sample Controller](https://github.com/kubernetes/sample-controller) using [Java Operator SDK](https://github.com/operator-framework/java-operator-sdk).
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This repository implements a simple controller for watching Foo resources as defined with a CustomResourceDefinition (CRD).
 
-## Running the application in dev mode
+This particular example demonstrates how to perform basic operations such as:
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+- How to register a reconciler for new custom resource (custom resource type) of type Foo using `io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration` annotation.
+- How to create/get/list instances of your new resource type Foo.
+- How to make other resources depend on custom resource using `io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent` annotation.
+
+## How to Run?
+
+**Prerequisite:** Since the sample-controller uses apps/v1 deployments, the Kubernetes cluster version should be greater than 1.9.
+```shell
+# Install Custom Resource Definition
+kubectl create -f src/main/resources/crd/foo-crd.yaml
+# Install ClusterRole, ClusterRoleBinding and ServiceAccount for Operator to work with
+kubectl create -f src/main/resources/foo-serviceaccount-and-role-binding.yml
+# Deploy Operator to Kubernetes cluster using Kubernetes Maven Plugin
+# (Optional) To point your shell to minikube's docker-daemon, run:
+eval $(minikube -p minikube docker-env)
+mvn package k8s:build k8s:resource k8s:apply
+```
+Once Operator has been deployed to Cluster, check for pods (there should be one named `sample-operator` running:
+```shell
+kubectl get pods
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
+Create an instance of `Foo` resource:
+```shell
+kubectl create -f src/main/resources/example-foo.yaml
+foo.samplecontroller.k8s.io/example-foo created
 ```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/sample-operator-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- Operator SDK ([guide](https://docs.quarkiverse.io/quarkus-operator-sdk/dev/index.html)): Quarkus extension for the Java Operator SDK (https://javaoperatorsdk.io)
+You'd notice that Operator detected this change and created the dependent resource Deployment for this `example-foo` resource.
