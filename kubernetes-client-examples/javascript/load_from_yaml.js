@@ -4,16 +4,15 @@ const fs = require('fs');
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
 
-const k8sApi = kc.makeApiClient(k8s.AppsV1Api);
+
 
 const main = async () => {
     try {
-        const filePath = "../../artifacts/deployment.yaml"
-        const fileContents = fs.readFileSync(filePath, 'utf8');
 
-        const resources = k8s.loadYaml(fileContents);
+        const appsV1Api = kc.makeApiClient(k8s.AppsV1Api);
+        const resources = k8s.loadYaml(fs.readFileSync("../../artifacts/deployment.yaml", 'utf8'));
+        await appsV1Api.createNamespacedDeployment("default", resources);
 
-        await k8sApi.createNamespacedDeployment("default", resources);
         console.log("Deployment created successfully");
     } catch (err) {
         console.error(err);

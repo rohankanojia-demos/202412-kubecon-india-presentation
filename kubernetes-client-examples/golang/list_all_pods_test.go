@@ -30,16 +30,15 @@ func TestListPods(t *testing.T) {
 		log.Fatalf("Error creating Kubernetes clientset: %v", err)
 	}
 
-	// Retrieve the list of Pods from the default namespace
-	podsClient := clientset.CoreV1().Pods("default") // specify the namespace
-	pods, err := podsClient.List(context.TODO(), metav1.ListOptions{})
+	pods := clientset.CoreV1().Pods("default")
+	podsList, err := pods.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		log.Fatalf("Error listing pods: %v", err)
 	}
 
 	// Print the names of all Pods
 	fmt.Println("Listing Pods in 'default' namespace:")
-	for _, pod := range pods.Items {
+	for _, pod := range podsList.Items {
 		fmt.Printf("- %s\n", pod.Name)
 	}
 }

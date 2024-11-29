@@ -5,8 +5,8 @@ config.load_kube_config()
 
 v1 = client.CoreV1Api()
 count = 30
-w = watch.Watch()
-for event in w.stream(v1.list_pod_for_all_namespaces, timeout_seconds=10):
+watch = watch.Watch()
+for event in watch.stream(v1.list_pod_for_all_namespaces, timeout_seconds=10):
     print("Event: %s %s" % (event['type'], event['object'].metadata.name))
     count -= 1
     if not count:

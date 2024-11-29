@@ -1,8 +1,19 @@
 use kube::Client;
 use kube::Api;
+use std::fs;
 use k8s_openapi::api::apps::v1::Deployment;
 use kube::api::PostParams;
 use std::error::Error;
+
+async fn read_deployment_yaml(yaml_file: &str) -> Result<Deployment, Box<dyn Error>> {
+    // Read the YAML file to a string
+    let yaml_content = fs::read_to_string(yaml_file)?;
+
+    // Deserialize the YAML content into a Deployment object
+    let deployment: Deployment = serde_yaml::from_str(&yaml_content)?;
+
+    Ok(deployment)
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -11,16 +22,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Define the namespace and API object for Deployments
     let namespace = "default";
-    let deployments: Api<Deployment> = Api::namespaced(client.clone(), namespace);
-
-    // Load the YAML file into a serde_yaml::Value object
-    let yaml_file = "../../artifacts/deployment.yaml";
-    let yaml_content = std::fs::read_to_string(yaml_file)?;
-
-    // Parse the YAML content into a Kubernetes Deployment resource
-    let deployment: Deployment = serde_yaml::from_str(&yaml_content)?;
+    
+    let deployment = read_deployment_yaml("../../artifacts/deployment.yaml").await?;
     let post_params = PostParams::default();
+    let deployments: Api<Deployment> = Api::namespaced(client.clone(), namespace);
     deployments.create(&post_params, &deployment).await?;
+
+    
     println!("Deployment created successfully.");
 
     Ok(())

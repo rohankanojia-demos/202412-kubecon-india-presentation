@@ -42,12 +42,14 @@ const deploymentSpec = {
   }
 };
 
-const k8sApi = kc.makeApiClient(k8s.AppsV1Api);
-
 const main = async () => {
     try {
-        const createDeploymentResponse = await k8sApi.createNamespacedDeployment('default', deploymentSpec);
-        console.log("Deployment %s created", createDeploymentResponse.body.metadata.name)
+
+      const AppsV1Api = kc.makeApiClient(k8s.AppsV1Api);
+      await AppsV1Api.createNamespacedDeployment('default', deploymentSpec);
+        
+        
+      console.log("Deployment %s created", createDeploymentResponse.body.metadata.name)
     } catch (err) {
         console.error(err);
     }

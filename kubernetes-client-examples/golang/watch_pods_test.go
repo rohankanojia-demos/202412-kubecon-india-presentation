@@ -30,16 +30,14 @@ func TestWatchPods(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	watchInterface, err := clientset.CoreV1().Pods("default").Watch(context.Background(), metav1.ListOptions{})
+	w, err := clientset.CoreV1().Pods("default").Watch(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer watchInterface.Stop()
-
 	for {
 		select {
-		case event := <-watchInterface.ResultChan():
+		case event := <-w.ResultChan():
 			switch event.Type {
 			case watch.Added:
 				fmt.Printf("Pod %s/%s was added\n", event.Object.(*corev1.Pod).Namespace, event.Object.(*corev1.Pod).Name)
@@ -56,4 +54,5 @@ func TestWatchPods(t *testing.T) {
 			return
 		}
 	}
+	defer w.Stop()
 }
