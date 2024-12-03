@@ -1,8 +1,10 @@
 FROM postgres:9.6
 
 COPY backup.sh /usr/local/bin/backup.sh
+COPY cleanup.sh /usr/local/bin/cleanup.sh
 
 RUN chmod +x /usr/local/bin/backup.sh
+RUN chmod +x /usr/local/bin/cleanup.sh
 
 ENTRYPOINT ["/bin/sh"]
 

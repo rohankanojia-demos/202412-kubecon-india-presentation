@@ -3,13 +3,14 @@ IMAGE_REGISTRY=ttl.sh
 IMAGE_NAME=postgres-backup
 IMAGE_TAG=1h
 BACKUP_SCRIPT=backup.sh
-CRONJOB_FILE=postgres-backup.yml
+BACKUP_CRONJOB=postgres-backup.yml
+CLEANUP_CRONJOB=cleanup-cronjob.yml
 
 .PHONY: build push
 
 build:
 	@echo "Building container image"
-	podman --remote build -t $(IMAGE_REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG) .
+	podman build -t $(IMAGE_REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG) .
 	podman push $(IMAGE_REGISTRY)/$(IMAGE_NAME):$(IMAGE_TAG)
 
 # Kubernetes apply
@@ -17,7 +18,8 @@ build:
 
 apply-cronjob:
 	@echo "Applying CronJob"
-	kubectl apply -f $(CRONJOB_FILE)
+	kubectl apply -f $(BACKUP_CRONJOB)
+	kubectl apply -f $(CLEANUP_CRONJOB)
 
 # Full deployment
 .PHONY: deploy

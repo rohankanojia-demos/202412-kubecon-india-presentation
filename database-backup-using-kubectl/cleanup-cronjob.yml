@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup-backups
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cleanup
+            image: ttl.sh/postgres-backup:1h
+            command: ["/bin/bash", "-c", "/usr/local/bin/cleanup.sh"]
+            env:
+            - name: BACKUP_DIR
+              value: /mnt/backups
+            volumeMounts:
+            - name: postgres-backup
+              mountPath: /mnt/backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: postgres-backup
+            persistentVolumeClaim:
+              claimName: db-backup-pv-claim
