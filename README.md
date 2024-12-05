@@ -1,7 +1,12 @@
 # KubeCon India Presentation : Developing Kubernetes applications beyond go
 
+> [!IMPORTANT]
+> Have you attended the talk? Please help us improve by providing us feedback by using [this link](https://openfeedback.io/gpN9GsS2djrUzS0mVe19/2024-12-11) :pray: .
+> 
+
 ## Table of Contents:
 - [Introduction](#introduction)
+- [About Speakers](#about-speakers)
 - [Database Backup Operator Demo](#database-backup-operator-demo)
 - [References](#references)
 
@@ -19,12 +24,19 @@ In this presentation we will showcase various Kubernetes Libraries written in po
 
 Code samples can be found in `kubernetes-client-examples/` folder
 
+## About Speakers
+
+This is a joint talk given by two people:
+- [Sun Tan](https://blog.sunix.org/about/)
+- [Rohan Kumar](https://rohankanojia.github.io/about/)
+
 ## Database Backup Operator Demo
 
 For demo, we will be showcasing  a simple Kubernetes Operator written using [Quarkus Java Operator SDK](https://quarkus.io/extensions/io.quarkiverse.operatorsdk/quarkus-operator-sdk/) , you can find code for the operator in this [GitHub repository](https://github.com/rohankanojia-demos/database-backup-operator-java-operator-sdk).
 
 ## References
 - [Kubernetes API reference](https://kubernetes.io/docs/reference/)
+- [Eclipse JKube Kubernetes Maven Plugin](https://eclipse.dev/jkube/docs/kubernetes-maven-plugin/)
 - [Java Operator SDK Documentation](https://javaoperatorsdk.io/docs/)
 - [Kubernetes Operator Pattern](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 - [Minikube](https://minikube.sigs.k8s.io/docs/)
