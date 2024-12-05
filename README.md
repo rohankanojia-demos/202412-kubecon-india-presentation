@@ -4,14 +4,6 @@
 > Have you attended the talk? Please help us improve by providing us feedback by using [this link](https://openfeedback.io/gpN9GsS2djrUzS0mVe19/2024-12-11) :pray: .
 > 
 
-## Table of Contents:
-- [Introduction](#introduction)
-- [About Speakers](#about-speakers)
-- [Database Backup Operator Demo](#database-backup-operator-demo)
-- [References](#references)
-
-## Introduction
-
 [Developing Kubernetes applications beyond go](https://kccncind2024.sched.com/event/1mVRN/developing-kubernetes-applications-beyond-go-rohan-kumar-red-hat-sun-tan-sciam)
 
 In this presentation we will showcase various Kubernetes Libraries written in popular languages like:
