@@ -6,6 +6,8 @@
 
 [Developing Kubernetes applications beyond go](https://kccncind2024.sched.com/event/1mVRN/developing-kubernetes-applications-beyond-go-rohan-kumar-red-hat-sun-tan-sciam)
 
+You can see the slides [here](https://docs.google.com/presentation/d/1Jp5JMHg8fI5WRP1i9gVX77z-0hhfZFFdjIo4fnlBdQc/edit?usp=sharing).
+
 In this presentation we will showcase various Kubernetes Libraries written in popular languages like:
 - [Kubernetes Javascript Client](https://github.com/kubernetes-client/javascript)
 - [Kubernetes Python Client](https://github.com/kubernetes-client/python)
