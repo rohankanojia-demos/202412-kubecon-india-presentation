@@ -1,0 +1,9 @@
+schemaVersion: 2.2.0
+metadata:
+  name: kubernetes-client-samples
+  version: 0.0.1 
+components:
+  - name: universal-dev
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi9-latest
+      mountSources: true
