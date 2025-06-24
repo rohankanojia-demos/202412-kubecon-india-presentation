@@ -7,3 +7,80 @@ components:
     container:
       image: quay.io/devfile/universal-developer-image:ubi9-latest
       mountSources: true
+commands:
+  - id: java-list-pods
+    exec:
+      label: "Java : List Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/java &&
+        mvn exec:java -Dexec.mainClass=io.fabric8.PodListTest
+      group:
+        kind: java
+  - id: java-load-and-create-deployment
+    exec:
+      label: "Java : Load and create Deployment"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/java &&
+        mvn exec:java -Dexec.mainClass=io.fabric8.LoadAndCreateDeployment
+      group:
+        kind: java
+  - id: java-watch-pods
+    exec:
+      label: "Java : Watch Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/java &&
+        mvn exec:java -Dexec.mainClass=io.fabric8.PodWatchTest
+      group:
+        kind: java
+  - id: java-simple-deployment-create
+    exec:
+      label: "Java : Simple Deployment Create"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/java &&
+        mvn exec:java -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
+      group:
+        kind: java
+  - id: golang-list-pods
+    exec:
+      label: "Golang : List Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/golang &&
+        go mod tidy &&
+        go test -v list_all_pods_test.go
+      group:
+        kind: golang
+  - id: golang-load-and-create-deployment
+    exec:
+      label: "Golang : Load and create Deployment"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/golang &&
+        go mod tidy &&
+        go test -v load_from_yaml_test.go
+      group:
+        kind: golang
+  - id: golang-watch-pods
+    exec:
+      label: "Golang : Watch Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/golang &&
+        go mod tidy &&
+        go test -v watch_pods_test.go
+      group:
+        kind: golang
+  - id: golang-simple-deployment-create
+    exec:
+      label: "Golang : Simple Deployment Create"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/golang &&
+        go mod tidy &&
+        mvn exec:golang -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
+      group:
+        kind: golang
