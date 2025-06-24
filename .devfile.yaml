@@ -84,3 +84,132 @@ commands:
         mvn exec:golang -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
       group:
         kind: golang
+  - id: javascript-list-pods
+    exec:
+      label: "Javascript : List Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/javascript &&
+        npm install &&
+        node list_pods.js
+      group:
+        kind: javascript
+  - id: javascript-load-and-create-deployment
+    exec:
+      label: "Javascript : Load and Create Deployment"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/javascript &&
+        npm install &&
+        node load_from_yaml.js
+      group:
+        kind: javascript
+  - id: javascript-watch-pods
+    exec:
+      label: "Javascript : Watch Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/javascript &&
+        npm install &&
+        node kubernetes-watch-namespace.js
+      group:
+        kind: javascript
+  - id: javascript-simple-deployment-create
+    exec:
+      label: "Javascript : Simple Deployment Create"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/javascript &&
+        npm install &&
+        node create_deployment.js
+      group:
+        kind: javascript
+  - id: python-list-pods
+    exec:
+      label: "Python : List Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/python &&
+        pip install -r requirements.txt &&
+        python client-samples/list_all_pods.py
+      group:
+        kind: python
+
+  - id: python-load-and-create-deployment
+    exec:
+      label: "Python : Load and Create Deployment"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/python &&
+        pip install -r requirements.txt &&
+        python client-samples/load_from_yaml.py
+      group:
+        kind: python
+
+  - id: python-watch-pods
+    exec:
+      label: "Python : Watch Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/python &&
+        pip install -r requirements.txt &&
+        python client-samples/kubernetes-watch-namespace.py
+      group:
+        kind: python
+
+  - id: python-simple-deployment-create
+    exec:
+      label: "Python : Simple Deployment Create"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/python &&
+        pip install -r requirements.txt &&
+        python client-samples/create_deployment.py
+      group:
+        kind: python
+  - id: rust-list-pods
+    exec:
+      label: "Rust : List Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/rust &&
+        cargo build &&
+        cargo run --bin list_all_pods
+      group:
+        kind: rust
+
+  - id: rust-load-and-create-deployment
+    exec:
+      label: "Rust : Load and Create Deployment"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/rust &&
+        cargo build &&
+        cargo run --bin load_from_yaml
+      group:
+        kind: rust
+
+  - id: rust-watch-pods
+    exec:
+      label: "Rust : Watch Pods"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/rust &&
+        cargo build &&
+        cargo run --bin kubernetes_watch_namespace
+      group:
+        kind: rust
+
+  - id: rust-simple-deployment-create
+    exec:
+      label: "Rust : Simple Deployment Create"
+      component: universal-dev
+      commandLine: |
+        cd kubernetes-client-examples/rust &&
+        cargo build &&
+        cargo run --bin create_deployment
+      group:
+        kind: rust
+ 
+
+
