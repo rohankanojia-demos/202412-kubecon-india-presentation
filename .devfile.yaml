@@ -16,7 +16,7 @@ commands:
         cd kubernetes-client-examples/java &&
         mvn exec:java -Dexec.mainClass=io.fabric8.PodListTest
       group:
-        kind: java
+        kind: run
   - id: java-load-and-create-deployment
     exec:
       label: "Java : Load and create Deployment"
@@ -25,7 +25,7 @@ commands:
         cd kubernetes-client-examples/java &&
         mvn exec:java -Dexec.mainClass=io.fabric8.LoadAndCreateDeployment
       group:
-        kind: java
+        kind: run
   - id: java-watch-pods
     exec:
       label: "Java : Watch Pods"
@@ -34,7 +34,7 @@ commands:
         cd kubernetes-client-examples/java &&
         mvn exec:java -Dexec.mainClass=io.fabric8.PodWatchTest
       group:
-        kind: java
+        kind: run
   - id: java-simple-deployment-create
     exec:
       label: "Java : Simple Deployment Create"
@@ -43,7 +43,7 @@ commands:
         cd kubernetes-client-examples/java &&
         mvn exec:java -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
       group:
-        kind: java
+        kind: run
   - id: golang-list-pods
     exec:
       label: "Golang : List Pods"
@@ -53,7 +53,7 @@ commands:
         go mod tidy &&
         go test -v list_all_pods_test.go
       group:
-        kind: golang
+        kind: run
   - id: golang-load-and-create-deployment
     exec:
       label: "Golang : Load and create Deployment"
@@ -63,7 +63,7 @@ commands:
         go mod tidy &&
         go test -v load_from_yaml_test.go
       group:
-        kind: golang
+        kind: run
   - id: golang-watch-pods
     exec:
       label: "Golang : Watch Pods"
@@ -73,7 +73,7 @@ commands:
         go mod tidy &&
         go test -v watch_pods_test.go
       group:
-        kind: golang
+        kind: run
   - id: golang-simple-deployment-create
     exec:
       label: "Golang : Simple Deployment Create"
@@ -83,7 +83,7 @@ commands:
         go mod tidy &&
         mvn exec:golang -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
       group:
-        kind: golang
+        kind: run
   - id: javascript-list-pods
     exec:
       label: "Javascript : List Pods"
@@ -93,7 +93,7 @@ commands:
         npm install &&
         node list_pods.js
       group:
-        kind: javascript
+        kind: run
   - id: javascript-load-and-create-deployment
     exec:
       label: "Javascript : Load and Create Deployment"
@@ -103,7 +103,7 @@ commands:
         npm install &&
         node load_from_yaml.js
       group:
-        kind: javascript
+        kind: run
   - id: javascript-watch-pods
     exec:
       label: "Javascript : Watch Pods"
@@ -113,7 +113,7 @@ commands:
         npm install &&
         node kubernetes-watch-namespace.js
       group:
-        kind: javascript
+        kind: run
   - id: javascript-simple-deployment-create
     exec:
       label: "Javascript : Simple Deployment Create"
@@ -123,7 +123,7 @@ commands:
         npm install &&
         node create_deployment.js
       group:
-        kind: javascript
+        kind: run
   - id: python-list-pods
     exec:
       label: "Python : List Pods"
@@ -133,7 +133,7 @@ commands:
         pip install -r requirements.txt &&
         python client-samples/list_all_pods.py
       group:
-        kind: python
+        kind: run
 
   - id: python-load-and-create-deployment
     exec:
@@ -144,7 +144,7 @@ commands:
         pip install -r requirements.txt &&
         python client-samples/load_from_yaml.py
       group:
-        kind: python
+        kind: run
 
   - id: python-watch-pods
     exec:
@@ -155,7 +155,7 @@ commands:
         pip install -r requirements.txt &&
         python client-samples/kubernetes-watch-namespace.py
       group:
-        kind: python
+        kind: run
 
   - id: python-simple-deployment-create
     exec:
@@ -166,7 +166,7 @@ commands:
         pip install -r requirements.txt &&
         python client-samples/create_deployment.py
       group:
-        kind: python
+        kind: run
   - id: rust-list-pods
     exec:
       label: "Rust : List Pods"
@@ -176,7 +176,7 @@ commands:
         cargo build &&
         cargo run --bin list_all_pods
       group:
-        kind: rust
+        kind: run
 
   - id: rust-load-and-create-deployment
     exec:
@@ -187,7 +187,7 @@ commands:
         cargo build &&
         cargo run --bin load_from_yaml
       group:
-        kind: rust
+        kind: run
 
   - id: rust-watch-pods
     exec:
@@ -198,7 +198,7 @@ commands:
         cargo build &&
         cargo run --bin kubernetes_watch_namespace
       group:
-        kind: rust
+        kind: run
 
   - id: rust-simple-deployment-create
     exec:
@@ -209,7 +209,7 @@ commands:
         cargo build &&
         cargo run --bin create_deployment
       group:
-        kind: rust
+        kind: run
  
 
 
