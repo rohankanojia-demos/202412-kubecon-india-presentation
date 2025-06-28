@@ -20,7 +20,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // Use the namespace from the kubeconfig context dynamically
     let deployments: Api<Deployment> = Api::namespaced(client.clone(), &namespace);
 
-    let deployment_name = "nginx-deployment";
+    let deployment_name = "nginx-deployment-rust";
     let deployment = Deployment {
         metadata: ObjectMeta {
             name: Some(deployment_name.to_string()),

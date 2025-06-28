@@ -11,7 +11,7 @@ public class SimpleDeploymentCreate {
     public static void main(String[] args) {
         try (KubernetesClient client = new KubernetesClientBuilder().build()) {
             Deployment deployment = new DeploymentBuilder()
-                .withNewMetadata().withName("nginx-deployment").addToLabels("app", "nginx").endMetadata()
+                .withNewMetadata().withName("nginx-deployment-java").addToLabels("app", "nginx").endMetadata()
                 .withNewSpec()
                 .withReplicas(3)
                 .withNewSelector()

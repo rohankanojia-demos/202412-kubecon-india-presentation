@@ -45,7 +45,7 @@ func TestCreateDeploymentObject(T *testing.T) {
 
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: "demo-deployment",
+			Name: "demo-deployment-golang",
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: int32Ptr(2),
