@@ -14,6 +14,7 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/java &&
+        mvn clean install &&
         mvn exec:java -Dexec.mainClass=io.fabric8.PodListTest
       group:
         kind: run
@@ -23,6 +24,7 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/java &&
+        mvn clean install &&
         mvn exec:java -Dexec.mainClass=io.fabric8.LoadAndCreateDeployment
       group:
         kind: run
@@ -32,6 +34,7 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/java &&
+        mvn clean install &&
         mvn exec:java -Dexec.mainClass=io.fabric8.PodWatchTest
       group:
         kind: run
@@ -41,6 +44,7 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/java &&
+        mvn clean install &&
         mvn exec:java -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
       group:
         kind: run
@@ -81,7 +85,7 @@ commands:
       commandLine: |
         cd kubernetes-client-examples/golang &&
         go mod tidy &&
-        mvn exec:golang -Dexec.mainClass=io.fabric8.SimpleDeploymentCreate
+        go test -v create_deployment_test.go
       group:
         kind: run
   - id: javascript-list-pods
@@ -130,7 +134,8 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/python &&
-        pip install -r requirements.txt &&
+        make init &&
+        source myenv/bin/activate &&
         python client-samples/list_all_pods.py
       group:
         kind: run
@@ -141,7 +146,8 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/python &&
-        pip install -r requirements.txt &&
+        make init &&
+        source myenv/bin/activate &&
         python client-samples/load_from_yaml.py
       group:
         kind: run
@@ -152,7 +158,8 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/python &&
-        pip install -r requirements.txt &&
+        make init &&
+        source myenv/bin/activate &&
         python client-samples/kubernetes-watch-namespace.py
       group:
         kind: run
@@ -163,7 +170,8 @@ commands:
       component: universal-dev
       commandLine: |
         cd kubernetes-client-examples/python &&
-        pip install -r requirements.txt &&
+        make init &&
+        source myenv/bin/activate &&
         python client-samples/create_deployment.py
       group:
         kind: run
