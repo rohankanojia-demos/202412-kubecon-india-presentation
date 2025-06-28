@@ -1,5 +1,6 @@
 init:
-	pip install -r requirements.txt
+	python3 -m venv myenv
+	./myenv/bin/pip install -r requirements.txt
 
 test:
-	nosetests tests
+	./myenv/bin/nosetests tests

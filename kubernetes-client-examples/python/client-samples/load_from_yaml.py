@@ -14,7 +14,7 @@ contexts, current_context = list_kube_config_contexts(config_file=KUBE_CONFIG_DE
 namespace = current_context.get('context', {}).get('namespace', 'default')
 
 # Load the deployment YAML
-deployment = readDeploymentYAML('../../../artifacts/deployment.yaml')
+deployment = readDeploymentYAML('../../artifacts/deployment.yaml')
 
 # Create the deployment in the current context's namespace
 appsV1Api = client.AppsV1Api()
