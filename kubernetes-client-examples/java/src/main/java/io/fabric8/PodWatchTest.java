@@ -10,7 +10,7 @@ import io.fabric8.kubernetes.client.WatcherException;
 public class PodWatchTest {
     public static void main(String[] args) {
         try (KubernetesClient client = new KubernetesClientBuilder().build()) {
-            Watch watch = client.pods().inNamespace("default").watch(new Watcher<Pod>() {
+            Watch watch = client.pods().watch(new Watcher<Pod>() {
                 @Override
                 public void eventReceived(Action action, Pod pod) {
                     System.out.printf("%s : %s\n", action.name(), pod.getMetadata().getName());

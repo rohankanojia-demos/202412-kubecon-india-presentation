@@ -30,7 +30,7 @@ public class SimpleDeploymentCreate {
                 .endSpec()
                 .build();
 
-            client.apps().deployments().inNamespace("default").resource(deployment).create();
+            client.apps().deployments().resource(deployment).create();
         }
     }
 }

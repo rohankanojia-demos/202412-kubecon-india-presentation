@@ -19,6 +19,19 @@ func TestWatchPods(t *testing.T) {
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = home + "/.kube/config"
 	}
+	rawConfig, err := clientcmd.LoadFromFile(kubeconfig)
+	if err != nil {
+		log.Fatalf("Error loading kubeconfig file: %v", err)
+	}
+	currentContext := rawConfig.CurrentContext
+	currentContextConfig, ok := rawConfig.Contexts[currentContext]
+	if !ok {
+		log.Fatalf("Current context %q not fonud", currentContext)
+	}
+	namespace := currentContextConfig.Namespace
+	if namespace == "" {
+		namespace = "default"
+	}
 
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
@@ -30,7 +43,7 @@ func TestWatchPods(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	w, err := clientset.CoreV1().Pods("default").Watch(context.Background(), metav1.ListOptions{})
+	w, err := clientset.CoreV1().Pods(namespace).Watch(context.Background(), metav1.ListOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}

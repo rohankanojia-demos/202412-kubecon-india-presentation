@@ -1,5 +1,4 @@
-use kube::Client;
-use kube::Api;
+use kube::{Client, Api, config::Config};
 use std::fs;
 use k8s_openapi::api::apps::v1::Deployment;
 use kube::api::PostParams;
@@ -17,19 +16,21 @@ async fn read_deployment_yaml(yaml_file: &str) -> Result<Deployment, Box<dyn Err
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // Initialize the Kubernetes client
-    let client = Client::try_default().await?;
+    // Load kubeconfig and get namespace
+    let config = Config::infer().await?;
+    let namespace = config.default_namespace().to_string();
 
-    // Define the namespace and API object for Deployments
-    let namespace = "default";
-    
+    // Initialize the Kubernetes client
+    let client = Client::try_from(config)?;
+
+    // Read deployment YAML
     let deployment = read_deployment_yaml("../../artifacts/deployment.yaml").await?;
+
     let post_params = PostParams::default();
-    let deployments: Api<Deployment> = Api::namespaced(client.clone(), namespace);
+    let deployments: Api<Deployment> = Api::namespaced(client.clone(), &namespace);
     deployments.create(&post_params, &deployment).await?;
 
-    
-    println!("Deployment created successfully.");
+    println!("Deployment created successfully in namespace '{}'.", namespace);
 
     Ok(())
 }

@@ -1,23 +1,24 @@
 use kube::Api;
 use kube::Client;
+use kube::config::Config;
 use k8s_openapi::api::apps::v1::Deployment;
 use kube::api::PostParams;
-use k8s_openapi::api::core::v1::Container;
-use k8s_openapi::api::core::v1::ContainerPort;
-use k8s_openapi::api::core::v1::PodSpec;
-use k8s_openapi::api::core::v1::PodTemplateSpec;
-use k8s_openapi::apimachinery::pkg::apis::meta::v1::ObjectMeta;
-use k8s_openapi::apimachinery::pkg::apis::meta::v1::LabelSelector;
+use k8s_openapi::api::core::v1::{Container, ContainerPort, PodSpec, PodTemplateSpec};
+use k8s_openapi::apimachinery::pkg::apis::meta::v1::{ObjectMeta, LabelSelector};
 use k8s_openapi::api::apps::v1::DeploymentSpec;
 
 use std::error::Error;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let client = Client::try_default().await?;
+    // Load kubeconfig and get client
+    let config = Config::infer().await?;
+    let namespace = config.default_namespace().to_string();
 
-    let namespace = "default";  
-    let deployments: Api<Deployment> = Api::namespaced(client.clone(), namespace);
+    let client = Client::try_from(config)?;
+
+    // Use the namespace from the kubeconfig context dynamically
+    let deployments: Api<Deployment> = Api::namespaced(client.clone(), &namespace);
 
     let deployment_name = "nginx-deployment";
     let deployment = Deployment {
@@ -54,7 +55,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                         Container {
                             name: "nginx".to_string(),
                             image: Some("nginx:latest".to_string()),
-                            ports: Some(vec![   ContainerPort {
+                            ports: Some(vec![ContainerPort {
                                 container_port: 80,
                                 ..Default::default()
                             }]),
@@ -74,7 +75,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let result = deployments.create(&post_params, &deployment).await;
 
     match result {
-        Ok(_) => println!("Deployment '{}' created successfully!", deployment_name),
+        Ok(_) => println!("Deployment '{}' created successfully in namespace '{}'", deployment_name, namespace),
         Err(err) => eprintln!("Error creating deployment: {:?}", err),
     }
 

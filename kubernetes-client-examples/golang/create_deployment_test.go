@@ -19,7 +19,19 @@ func TestCreateDeploymentObject(T *testing.T) {
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = home + "/.kube/config"
 	}
-
+	rawConfig, err := clientcmd.LoadFromFile(kubeconfig)
+	if err != nil {
+		log.Fatalf("Error loading kubeconfig file: %v", err)
+	}
+	currentContext := rawConfig.CurrentContext
+	currentContextConfig, ok := rawConfig.Contexts[currentContext]
+	if !ok {
+		log.Fatalf("Current context %q not fonud", currentContext)
+	}
+	namespace := currentContextConfig.Namespace
+	if namespace == "" {
+		namespace = "default"
+	}
 	// If running in a pod, you may want to use in-cluster config instead of kubeconfig file.
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
@@ -29,8 +41,7 @@ func TestCreateDeploymentObject(T *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-
-	deploymentsClient := clientset.AppsV1().Deployments(apiv1.NamespaceDefault)
+	deploymentsClient := clientset.AppsV1().Deployments(namespace)
 
 	deployment := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{

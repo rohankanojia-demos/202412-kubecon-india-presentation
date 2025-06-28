@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	appsv1 "k8s.io/api/apps/v1"
-	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -20,6 +19,19 @@ func TestLoadDeploymentYaml(t *testing.T) {
 	kubeconfig := ""
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = home + "/.kube/config"
+	}
+	rawConfig, err := clientcmd.LoadFromFile(kubeconfig)
+	if err != nil {
+		log.Fatalf("Error loading kubeconfig file: %v", err)
+	}
+	currentContext := rawConfig.CurrentContext
+	currentContextConfig, ok := rawConfig.Contexts[currentContext]
+	if !ok {
+		log.Fatalf("Current context %q not fonud", currentContext)
+	}
+	namespace := currentContextConfig.Namespace
+	if namespace == "" {
+		namespace = "default"
 	}
 
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
@@ -37,7 +49,7 @@ func TestLoadDeploymentYaml(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	deploymentsClient := clientset.AppsV1().Deployments(apiv1.NamespaceDefault)
+	deploymentsClient := clientset.AppsV1().Deployments(namespace)
 	_, err = deploymentsClient.Create(context.TODO(), deployment, metav1.CreateOptions{})
 	if err != nil {
 		fmt.Println(err)

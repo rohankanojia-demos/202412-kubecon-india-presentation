@@ -17,6 +17,19 @@ func TestListPods(t *testing.T) {
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = home + "/.kube/config"
 	}
+	rawConfig, err := clientcmd.LoadFromFile(kubeconfig)
+	if err != nil {
+		log.Fatalf("Error loading kubeconfig file: %v", err)
+	}
+	currentContext := rawConfig.CurrentContext
+	currentContextConfig, ok := rawConfig.Contexts[currentContext]
+	if !ok {
+		log.Fatalf("Current context %q not fonud", currentContext)
+	}
+	namespace := currentContextConfig.Namespace
+	if namespace == "" {
+		namespace = "default"
+	}
 
 	// If running in a pod, you may want to use in-cluster config instead of kubeconfig file.
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
@@ -30,14 +43,14 @@ func TestListPods(t *testing.T) {
 		log.Fatalf("Error creating Kubernetes clientset: %v", err)
 	}
 
-	pods := clientset.CoreV1().Pods("default")
+	pods := clientset.CoreV1().Pods(namespace)
 	podsList, err := pods.List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		log.Fatalf("Error listing pods: %v", err)
 	}
 
 	// Print the names of all Pods
-	fmt.Println("Listing Pods in 'default' namespace:")
+	fmt.Println("Listing Pods in current namespace:")
 	for _, pod := range podsList.Items {
 		fmt.Printf("- %s\n", pod.Name)
 	}
