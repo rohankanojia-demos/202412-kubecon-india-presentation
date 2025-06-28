@@ -6,7 +6,7 @@ use std::error::Error;
 async fn main() -> Result<(), Box<dyn Error>> {
     // Load config and get namespace
     let config = Config::infer().await?;
-    let namespace = config.default_namespace().to_string();
+    let namespace = config.default_namespace.to_string();
 
     let client = Client::try_from(config)?;
     let pods: Api<Pod> = Api::namespaced(client, &namespace);
