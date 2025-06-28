@@ -1,5 +1,7 @@
 # KubeCon India Presentation : Developing Kubernetes applications beyond go
 
+[![Contribute](https://www.eclipse.org/che/contribute.svg)](https://workspaces.openshift.com#https://github.com/rohankanojia-demos/202412-kubecon-india-presentation/)
+
 > [!IMPORTANT]
 > Have you attended the talk? Please help us improve by providing us feedback by using [this link](https://openfeedback.io/gpN9GsS2djrUzS0mVe19/2024-12-11) :pray: .
 > 
